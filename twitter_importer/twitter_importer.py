@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 from __future__ import absolute_import, print_function
 import os
-import mysql.connector
-from mysql.connector import errorcode
+import pymysql.cursors
 from time import sleep
+import json
 
 #Import the necessary methods from tweepy library
 from tweepy.streaming import StreamListener
@@ -25,38 +25,32 @@ CONSUMER_SECRET = os.environ.get('CONSUMER_SECRET')
 MYSQL_HOST_NAME = os.environ.get('MYSQL_HOST_NAME')
 MYSQL_ROOT_PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD')
 
-config = {
-    'user': 'root',
-    'password': MYSQL_ROOT_PASSWORD,
-    'host': MYSQL_HOST_NAME,
-    'database': 'twee'
-}
-
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
 
-    def on_data(self, data):
-        print (str(data))
-        cnx = cur = None
+    def on_data(self, tweets):
+        data=json.loads(tweets)
+
+        # Connect to the database
+        connection = pymysql.connect(host=MYSQL_HOST_NAME,
+                             user='root',
+                             password=MYSQL_ROOT_PASSWORD,
+                             db='twee',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
         try:
-            cnx = mysql.connector.connect(**config)
-        except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print('Something is wrong with your user name or password')
-            elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                print("Database does not exist")
-            else:
-                print(err)
-        else:
-            cur = cnx.cursor()
-            cur.execute('show databases;')
-            for row in cur.fetchall():
-                print(row)
+            with connection.cursor() as cursor:
+                # Create a new record
+                sql = """INSERT INTO `twwees`
+                (`twee_id`, `id_str`, `text`, `source`, `user`, `retweet_count`, `favorite_count`, `lang`)
+                VALUES (%s, %s,%s, %s,%s, %s,%s, %s)"""
+                cursor.execute(sql, (data['id'],data['id_str'],data['text'],data['source'],data['user'],data['retweet_count'],data['favorite_count'],data['lang']))
+
+                # connection is not autocommit by default. So you must commit to save
+                # your changes.
+                connection.commit()
         finally:
-            if cur:
-                cur.close()
-            if cnx:
-                cnx.close()
+            connection.close()
         return True
 
     def on_error(self,status):

@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get install -y python-pip
 
 # Install and configure python packages
-RUN pip install pip install mysql-connector
+RUN pip install PyMySQL
 RUN pip install tweepy
 
 # Copy python app
