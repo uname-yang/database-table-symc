@@ -1,0 +1,39 @@
+dbms:
+    image: mysql
+    ports:
+        - 3306:10000
+    environment:
+        MYSQL_ROOT_PASSWORD: passwd
+
+dbsv:
+    image: mysql
+    ports:
+        - 3306:9999
+    environment:
+        MYSQL_ROOT_PASSWORD: passwd
+
+tweets:
+  build: twitter_importer
+  restart: always
+  hostname: twitterimporter
+  environment:
+    ACCESS_TOKEN: "851652975957127168-kCdHaLXCHAf3yBzynoKc62jG7fxI71O"
+    ACCESS_TOKEN_SECRET: "iV330tl5xRtN960uXHHyImcTwBlt5CYSqwb7EH4EJcCWy"
+    CONSUMER_KEY: "PRUgkvxvKCAvfT6cnoG8ZueMg"
+    CONSUMER_SECRET: "WwtS8oKDT3H7dqQxNdQ7idUk5gMYX1ZeWXDA199QOHKLWIQhoQ"
+    KEYWORDS_LIST: "python,golang,scala,ruby,javascript,sql"
+    MYSQL_HOST_NAME: "dbms:10000"
+    MYSQL_ROOT_PASSWORD: passwd
+  links:
+    - dbms
+
+worker:
+  build: db_tbl_sync
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: passwd
+    PORT1: "10000"
+    PORT2: "9999"
+  links:
+    - dbms
+    - dbsv

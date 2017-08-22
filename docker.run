@@ -1,0 +1,2 @@
+sudo docker service create --name dbms --publish 10000:3306 -e MYSQL_ROOT_PASSWORD=passwd mysql
+sudo docker service create --name dbsv --publish 9999:3306 -e MYSQL_ROOT_PASSWORD=passwd mysql
