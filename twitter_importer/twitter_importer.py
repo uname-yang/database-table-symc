@@ -43,7 +43,7 @@ class StdOutListener(StreamListener):
         try:
             with connection.cursor() as cursor:
                 # Create a new record
-                sql = """INSERT INTO `twwees`
+                sql = """INSERT INTO `twees`
                 (`twee_id`, `id_str`, `text`, `source`, `user`, `retweet_count`, `favorite_count`, `lang`)
                 VALUES (%s, %s, %s, %s, %s, %d, %d, %s)"""
                 cursor.execute(sql,
@@ -65,7 +65,7 @@ def main():
     auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
     stream = Stream(auth, l)
-    stream.filter(track=['python', 'javascript', 'ruby', 'perl', 'dotnet'])
+    stream.filter(track=KEYWORDS_LIST)
 
 
 if __name__ == "__main__":

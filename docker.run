@@ -7,12 +7,12 @@ sudo docker build -t twitter_importer .
 
 sudo docker service create --name tweets \
 --network=dbt \
--e 'MYSQL_ROOT_PASSWORD=passwd \
-ACCESS_TOKEN = "851652975957127168-kCdHaLXCHAf3yBzynoKc62jG7fxI71O" \
-ACCESS_TOKEN_SECRET = "iV330tl5xRtN960uXHHyImcTwBlt5CYSqwb7EH4EJcCWy" \
-CONSUMER_KEY = "PRUgkvxvKCAvfT6cnoG8ZueMg" \
-CONSUMER_SECRET = "WwtS8oKDT3H7dqQxNdQ7idUk5gMYX1ZeWXDA199QOHKLWIQhoQ" \
-MYSQL_HOST_NAME = "dbms" \
-MYSQL_HOST_PORT= 10000 \
-MYSQL_ROOT_PASSWORD = passwd' \
+--env ACCESS_TOKEN=851652975957127168-kCdHaLXCHAf3yBzynoKc62jG7fxI71O \
+--env ACCESS_TOKEN_SECRET=iV330tl5xRtN960uXHHyImcTwBlt5CYSqwb7EH4EJcCWy \
+--env CONSUMER_KEY=PRUgkvxvKCAvfT6cnoG8ZueMg \
+--env CONSUMER_SECRET=WwtS8oKDT3H7dqQxNdQ7idUk5gMYX1ZeWXDA199QOHKLWIQhoQ \
+--env KEYWORDS_LIST=python,golang,scala,ruby,javascript,sql \
+--env MYSQL_HOST_NAME=dbms \
+--env MYSQL_HOST_PORT=10000 \
+--env MYSQL_ROOT_PASSWORD=passwd \
 twitter_importer

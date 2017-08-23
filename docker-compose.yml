@@ -21,6 +21,7 @@ tweets:
     ACCESS_TOKEN_SECRET: "iV330tl5xRtN960uXHHyImcTwBlt5CYSqwb7EH4EJcCWy"
     CONSUMER_KEY: "PRUgkvxvKCAvfT6cnoG8ZueMg"
     CONSUMER_SECRET: "WwtS8oKDT3H7dqQxNdQ7idUk5gMYX1ZeWXDA199QOHKLWIQhoQ"
+    KEYWORDS_LIST: "python,golang,scala,ruby,javascript,sql"
     MYSQL_HOST_NAME: "dbms"
     MYSQL_HOST_PORT: 10000
     MYSQL_ROOT_PASSWORD: passwd
