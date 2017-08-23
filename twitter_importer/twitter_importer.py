@@ -45,7 +45,7 @@ class StdOutListener(StreamListener):
                 (`twee_id`, `id_str`, `text`, `source`, `user`, `retweet_count`, `favorite_count`, `lang`)
                 VALUES (%s, %s, %s, %s, %s, %d, %d, %s)"""
                 cursor.execute(sql,
-                (data['id'],data['id_str'],data['text'],data['source'],data['user'],
+                (data['id'],data['id_str'],data['text'],data['source'],data['user']['name'],
                 data['retweet_count'],data['favorite_count'],data['lang']))
 
                 # connection is not autocommit by default. So you must commit to save
