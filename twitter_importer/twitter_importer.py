@@ -31,7 +31,7 @@ class StdOutListener(StreamListener):
 
     def on_data(self, tweets):
         data=json.loads(tweets)
-        print data
+        print(data['id'])
 
         # Connect to the database
         connection = pymysql.connect(host=MYSQL_HOST_NAME,port=MYSQL_HOST_PORT,
@@ -65,7 +65,7 @@ def main():
     auth = OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
     stream = Stream(auth, l)
-    stream.filter(track=KEYWORDS_LIST)
+    stream.filter(track=['python', 'javascript', 'ruby', 'perl', 'dotnet'])
 
 
 if __name__ == "__main__":
