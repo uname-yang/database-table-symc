@@ -1,7 +1,7 @@
 
-DROP SCHEMA IF EXISTS twwee;
-CREATE SCHEMA twee;
-USE twwee;
+DROP DATABASE IF EXISTS twee;
+CREATE DATABASE twee;
+USE twee;
 
 
 CREATE TABLE twees (
