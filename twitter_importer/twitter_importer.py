@@ -21,7 +21,6 @@ ACCESS_TOKEN_SECRET = os.environ.get('ACCESS_TOKEN_SECRET')
 CONSUMER_KEY = os.environ.get('CONSUMER_KEY')
 CONSUMER_SECRET = os.environ.get('CONSUMER_SECRET')
 
-# Kafka Configurations
 MYSQL_HOST_NAME = os.environ.get('MYSQL_HOST_NAME')
 MYSQL_ROOT_PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD')
 
@@ -31,14 +30,8 @@ class StdOutListener(StreamListener):
     def on_data(self, tweets):
         data=json.loads(tweets)
         print(data['id'])
-
-        # Connect to the database
-        connection = pymysql.connect(host=MYSQL_HOST_NAME,
-                             user='root',
-                             password=MYSQL_ROOT_PASSWORD,
-                             db='twee',
-                             charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor)
+        if (data['lang']!='en'):
+            return True
         try:
             with connection.cursor() as cursor:
                 # Create a new record
@@ -49,12 +42,9 @@ class StdOutListener(StreamListener):
                 (data['id'],data['id_str'],data['text'],data['source'],data['user']['screen_name'],
                 data['retweet_count'],data['favorite_count'],data['lang']))
 
-                # connection is not autocommit by default. So you must commit to save
-                # your changes.
                 connection.commit()
         finally:
-            connection.close()
-        return True
+            return True
 
     def on_error(self,status):
         print(status)
@@ -68,4 +58,14 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # Connect to the database
+    connection = pymysql.connect(host=MYSQL_HOST_NAME,
+                         user='root',
+                         password=MYSQL_ROOT_PASSWORD,
+                         db='twee',
+                         charset='utf8mb4',
+                         cursorclass=pymysql.cursors.DictCursor)
+    try:
+        main()
+    finally:
+        connection.close()

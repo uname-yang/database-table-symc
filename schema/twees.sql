@@ -17,3 +17,7 @@ CREATE TABLE twees (
   PRIMARY KEY  (twee_id),
   KEY idx_user_name (user)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+select id_str,text,user,favorite_count,created_at from twees;
+select count(*) from twees;
