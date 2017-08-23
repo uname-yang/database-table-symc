@@ -24,15 +24,17 @@ CONSUMER_SECRET = os.environ.get('CONSUMER_SECRET')
 # Kafka Configurations
 MYSQL_HOST_NAME = os.environ.get('MYSQL_HOST_NAME')
 MYSQL_ROOT_PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD')
+MYSQL_HOST_PORT = os.environ.get('MYSQL_HOST_PORT')
 
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
 
     def on_data(self, tweets):
         data=json.loads(tweets)
+        print data
 
         # Connect to the database
-        connection = pymysql.connect(host=MYSQL_HOST_NAME,
+        connection = pymysql.connect(host=MYSQL_HOST_NAME,port=MYSQL_HOST_PORT,
                              user='root',
                              password=MYSQL_ROOT_PASSWORD,
                              db='twee',
