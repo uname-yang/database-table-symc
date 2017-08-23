@@ -13,6 +13,5 @@ sudo docker service create --name tweets \
 --env CONSUMER_SECRET=WwtS8oKDT3H7dqQxNdQ7idUk5gMYX1ZeWXDA199QOHKLWIQhoQ \
 --env KEYWORDS_LIST=python,golang,scala,ruby,javascript,sql \
 --env MYSQL_HOST_NAME=dbms \
---env MYSQL_HOST_PORT=10000 \
 --env MYSQL_ROOT_PASSWORD=passwd \
 twitter_importer

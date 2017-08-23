@@ -24,7 +24,6 @@ CONSUMER_SECRET = os.environ.get('CONSUMER_SECRET')
 # Kafka Configurations
 MYSQL_HOST_NAME = os.environ.get('MYSQL_HOST_NAME')
 MYSQL_ROOT_PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD')
-MYSQL_HOST_PORT = os.environ.get('MYSQL_HOST_PORT')
 
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
@@ -34,7 +33,7 @@ class StdOutListener(StreamListener):
         print(data['id'])
 
         # Connect to the database
-        connection = pymysql.connect(host=MYSQL_HOST_NAME,port=MYSQL_HOST_PORT,
+        connection = pymysql.connect(host=MYSQL_HOST_NAME,
                              user='root',
                              password=MYSQL_ROOT_PASSWORD,
                              db='twee',
@@ -45,9 +44,9 @@ class StdOutListener(StreamListener):
                 # Create a new record
                 sql = """INSERT INTO `twees`
                 (`twee_id`, `id_str`, `text`, `source`, `user`, `retweet_count`, `favorite_count`, `lang`)
-                VALUES (%s, %s, %s, %s, %s, %d, %d, %s)"""
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
                 cursor.execute(sql,
-                (data['id'],data['id_str'],data['text'],data['source'],data['user']['name'],
+                (data['id'],data['id_str'],data['text'],data['source'],data['user']['screen_name'],
                 data['retweet_count'],data['favorite_count'],data['lang']))
 
                 # connection is not autocommit by default. So you must commit to save

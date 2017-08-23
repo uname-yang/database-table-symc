@@ -7,8 +7,8 @@ USE twee;
 CREATE TABLE twees (
   twee_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   id_str VARCHAR(20) NOT NULL,
-  text VARCHAR(100) NOT NULL,
-  source VARCHAR(100) NOT NULL,
+  text VARCHAR(500) NOT NULL,
+  source VARCHAR(200) NOT NULL,
   user VARCHAR(20) NOT NULL,
   retweet_count INT NULL,
   favorite_count INT NULL,
