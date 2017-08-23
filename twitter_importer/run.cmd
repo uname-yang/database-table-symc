@@ -15,3 +15,9 @@ sudo docker service create --name tweets \
 --env MYSQL_HOST_NAME=dbms \
 --env MYSQL_ROOT_PASSWORD=passwd \
 twitter_importer
+
+sudo docker service scale tweets=10
+sudo docker service ls
+
+mysql -h 127.0.0.1 -P 10000 -uroot -ppasswd
+mysql -h 127.0.0.1 -P 9999 -uroot -ppasswd
