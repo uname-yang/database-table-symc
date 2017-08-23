@@ -1,2 +1,16 @@
 sudo docker service create --name dbms --publish 10000:3306 -e MYSQL_ROOT_PASSWORD=passwd mysql
 sudo docker service create --name dbsv --publish 9999:3306 -e MYSQL_ROOT_PASSWORD=passwd mysql
+
+docker build -t twitter_importer .
+
+sudo docker service create --name tweets \
+--link dbms:dbms
+-e MYSQL_ROOT_PASSWORD=passwd \
+ACCESS_TOKEN = "851652975957127168-kCdHaLXCHAf3yBzynoKc62jG7fxI71O" \
+ACCESS_TOKEN_SECRET = "iV330tl5xRtN960uXHHyImcTwBlt5CYSqwb7EH4EJcCWy" \
+CONSUMER_KEY = "PRUgkvxvKCAvfT6cnoG8ZueMg" \
+CONSUMER_SECRET = "WwtS8oKDT3H7dqQxNdQ7idUk5gMYX1ZeWXDA199QOHKLWIQhoQ" \
+KEYWORDS_LIST = "python,golang,scala,ruby,javascript,sql" \
+MYSQL_HOST_NAME = "dbms:10000" \
+MYSQL_ROOT_PASSWORD = passwd \
+twitter_importer
